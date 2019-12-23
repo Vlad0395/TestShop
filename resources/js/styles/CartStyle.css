@@ -1,0 +1,53 @@
+.container {
+    width: 35%;
+    margin: 0 auto;
+}
+.card {    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.description {
+    width: 40%;
+    border-right: 1px solid lightgreen;
+    padding: 10px;
+    text-align: left;
+}
+
+.description p {
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.img img {
+    width: 100px;
+    padding: 10px;
+}
+
+.number {
+    padding: 10px;
+}
+
+.number input {
+    width: 20px;
+    margin: 0 10px;
+    border: none;
+    text-align: center;
+}
+
+.number input::-webkit-outer-spin-button,
+.number input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.price {
+    padding: 0 10px;
+}
+.total {
+    text-align: right;
+}
+.btnBuy {
+    padding: 5px 25px;
+}
