@@ -27,6 +27,8 @@
         "react-router": "^5.1.2",
         "react-router-dom": "^5.1.2",
         "redux": "^4.0.4",
-        "redux-thunk": "^2.3.0"
+        "redux-thunk": "^2.3.0",
+        "style-component": "0.0.1",
+        "styled-components": "^4.4.1"
     }
 }
