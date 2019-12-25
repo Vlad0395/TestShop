@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e1c45410-4eeb-4192-84db-d7a3602bde28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/ProductSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProductSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Cart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Cart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/CartItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CartItem.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +121,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PhoneBook" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
@@ -158,6 +156,7 @@
       <workItem from="1577119953312" duration="3988000" />
       <workItem from="1577206273305" duration="131000" />
       <workItem from="1577266626076" duration="4225000" />
+      <workItem from="1577307806870" duration="2841000" />
     </task>
     <servers />
   </component>
