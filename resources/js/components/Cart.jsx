@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getProducts, saveSum } from '../actions/ProductActions';
+import { getProducts, saveSum, DeleteProduct } from '../actions/ProductActions';
 import map from 'lodash/map';
 import '../styles/CartStyle.css';
 import Image from "../images/image.png";
@@ -19,12 +19,15 @@ class Cart extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.products && !prevProps.products) {
-            let numbers = this.props.products.map((product, index) => 1)
-            let prices = this.props.products.map((product) => product.price)
-            this.setState({
-                numbers,
-                prices,
-            })
+
+            if (!this.state.numbers.length && !this.state.prices.length) {
+                let numbers = this.props.products.map((product, index) => 1)
+                let prices = this.props.products.map((product) => product.price)
+                this.setState({
+                    numbers,
+                    prices,
+                })
+            }
         }
     }
 
@@ -55,6 +58,18 @@ class Cart extends Component {
     handleBuy = (sum) => {
         this.props.dispatch(saveSum(sum))
     }
+    handleRemove = (id, index) => {
+        this.props.dispatch(DeleteProduct(id))
+        //need refactoring, because you change state. And it will change data without setState
+        let numbers = [...this.state.numbers]
+        let prices = [...this.state.prices]
+        numbers.splice(index, 1)
+        prices.splice(index, 1)
+        this.setState({
+            numbers,
+            prices,
+        })
+    }
 
     render() {
         const { products } = this.props;
@@ -66,6 +81,12 @@ class Cart extends Component {
                 {products &&
                     map(products, (product, index) => (
                         <div className="card" key={product.id}>
+                            <button
+                                className="btnDelete"
+                                onClick={() => this.handleRemove(product.id, index)}
+                            >
+                                <i className="fas fa-trash"></i>
+                            </button>
                             <div className='img'>
                                 <img src={Image} alt={product.image} />
                             </div>
@@ -77,7 +98,6 @@ class Cart extends Component {
                                 <button className='btnMinus' onClick={() => this.handleMove(index, -1)}>-</button>
                                 <p
                                     name='number'
-                                    // value={this.state.numbers[index] || 1}
                                     onChange={() => this.handleChange(index)}
                                 >{this.state.numbers[index] || 1}</p>
                                 <button className='btnPlus' onClick={() => this.handleMove(index, +1)}>+</button>
@@ -97,6 +117,7 @@ class Cart extends Component {
                         <button
                             className="btnBuy"
                             sum={sum}
+                            disabled={sum === 0}
                             onClick={() => this.handleBuy(sum)}
                         >
                             BUY

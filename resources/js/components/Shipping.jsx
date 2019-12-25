@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { payment } from '../actions/ProductActions';
+import { payment, costDelivery } from '../actions/ProductActions';
 import styled from 'styled-components';
 import Popup from './Popup';
 
@@ -10,22 +10,20 @@ class Shipping extends Component {
         address: '',
         phone: '',
         email: '',
+        select:'Free shipping',
         errorValidation: {},
     }
     handleChange = (event) => {
         let error = { ...this.state.errorValidation };
         let regular = '';
-        let required = '';
         switch (event.target.name) {
             case 'name':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
                 error[event.target.name] = 'Name must consist of latin letters and numbers';
-                required = 'field is required';
                 break;
             case 'address':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
                 error[event.target.name] = 'Address must consist of latin letters and numbers';
-                required = 'field is required';
                 break;
             case 'phone':
                 regular = RegExp('^[0-9]{8,12}$');
@@ -34,7 +32,6 @@ class Shipping extends Component {
             case 'email':
                 regular = RegExp('^\\w+@[a-zA-Z0-9_.-]+?\\.[a-zA-Z_.-]{2,3}$');
                 error[event.target.name] = 'email not valid';
-                required = 'field is required';
                 break;
             default:
                 regular = '';
@@ -53,28 +50,35 @@ class Shipping extends Component {
         //     this.setState({ errorValidation: required });
         // }
     };
-
+    handleChangeSelect = () =>{
+        this.setState({
+            [event.target.name]:event.target.value
+        })
+    }
     handleError = () => {
         this.setState({ errorValidation: true });
-        console.log('errorValidation', this.state.errorValidation)
     }
 
-    handlePay = () =>{
+    handlePay = () => {
         this.props.dispatch(payment())
     }
 
-    render() {
-        const { errorValidation, name, address, email } = this.state;
-        const { sum, paymentSuccess } = this.props;
-        console.log('sum', sum)
-        console.log('errorValidation', errorValidation)
-        console.log('name', name)
-        console.log('address', address)
-        console.log('email', email)
+    handleCostDelivery = (express, courier) => {
+        this.props.dispatch(costDelivery(express, courier))
+    }
 
+    render() {
+        const { errorValidation, name, address, email, select } = this.state;
+        const { sum, paymentSuccess } = this.props;
+        let express = 9.99;
+        let courier = 19.99;
+        console.log('select', select)
         return (
             <Form >
-                { paymentSuccess && <Popup/> }
+                {paymentSuccess && 
+                    <Popup
+                        select={select}
+                    />}
                 <Label>
                     <Span>Name*</Span>
                     <Box>
@@ -82,6 +86,7 @@ class Shipping extends Component {
                             type="text"
                             name='name'
                             value={this.state.name}
+                            placeholder="Vlad"
                             required
                             onChange={this.handleChange}
                             error={Boolean(errorValidation && errorValidation.name)}
@@ -95,6 +100,7 @@ class Shipping extends Component {
                         <Input
                             type="text"
                             name='address'
+                            placeholder='street'
                             value={this.state.address}
                             required
                             onChange={this.handleChange}
@@ -109,6 +115,7 @@ class Shipping extends Component {
                         <Input
                             type="tel"
                             name='phone'
+                            placeholder='380504588746'
                             value={this.state.phone}
                             onChange={this.handleChange}
                             error={Boolean(errorValidation && errorValidation.phone)}
@@ -122,6 +129,7 @@ class Shipping extends Component {
                         <Input
                             type="email"
                             name='email'
+                            placeholder='email@gmail.com'
                             value={this.state.email}
                             required
                             onChange={this.handleChange}
@@ -133,22 +141,28 @@ class Shipping extends Component {
                 <Label >
                     <Span>Shipping options</Span>
                     <Select
-                        name="shipping options"
+                        name="select"
                         id="shippingOptions"
                         defaultValue={sum >= 300 ? 'Free express shipping' : 'Free shipping'}
+                        onChange={this.handleChangeSelect}
                         disabled={sum >= 300}
                     >
                         <option value="Free shipping">Free shipping</option>
-                        <option value="Express shipping - additional 9.99 €">Express shipping - additional 9.99 €</option>
-                        <option value="Courier shipping - additional 19.99 €">Courier shipping - additional 19.99 €</option>
+                        <option value="Express shipping - additional 9.99 €">Express shipping - additional {express} €</option>
+                        <option value="Courier shipping - additional 19.99 €">Courier shipping - additional {courier} €</option>
                         {sum >= 300 && <option value="Free express shipping">Free express shipping</option>}
                     </Select>
                 </Label>
                 <Div>
                     <Button
-                        onClick={this.handlePay}
-                        disabled={ 
-                            !name || !address || !email || errorValidation.name || errorValidation.address || errorValidation.phone || errorValidation.email}
+                        onClick={
+                            () => {
+                                this.handlePay()
+                                this.handleCostDelivery(express, courier)
+                            }
+                        }
+                        disabled={
+                            !name || !address || !email || errorValidation.name || errorValidation.address || errorValidation.phone || errorValidation.email || paymentSuccess}
                     >
                         PAY
                     </Button>
@@ -176,6 +190,8 @@ const Form = styled.div`
     padding: 20px;
     border: 1px solid #456264;
     background: #f2f3f1;
+    position:relative;
+    z-index:100;
    
 `;
 

@@ -12,6 +12,7 @@
     </head>
     <body>
         <div id="example"></div>
+        <script src="https://kit.fontawesome.com/821f2cbf10.js" crossorigin="anonymous"></script>
         <script src="{{asset('js/app.js')}}" ></script>
     </body>
 </html>

@@ -20,20 +20,14 @@ export const getProducts = () => {
 	};
 };
 
-export const DeleteProduct = id => {
+export const DeleteProduct = (id) => {
 	return dispatch => {
-		axios
-			.delete('api/products/' + id)
-			.then(response => {
-				dispatch({
-					type: constants.DELETE_PRODUCT_SUCCESS,
-					data: response.data,
-				});
-			})
-			.catch(error => {
-				console.log('delete_error', error);
-			});
-	};
+		dispatch({
+			type: constants.DELETE_PRODUCT,
+			id,
+			
+		});
+	}
 };
 
 export const saveSum = (sum) => {
@@ -44,23 +38,32 @@ export const saveSum = (sum) => {
 		})
 	}
 }
+export const costDelivery = (express, courier) => {
+	return dispatch => {
+		dispatch({
+			type: constants.COST_DELIVERY,
+			express: express,
+			courier: courier,
 
+		})
+	}
+}
 export const payment = () => {
 	return dispatch => {
 		axios
-		.post('api/payment')
-		.then(response => {
-			dispatch({
-				type: constants.PAYMENT_SUCCESS,
-				data: response.data,
+			.post('api/payment')
+			.then(response => {
+				dispatch({
+					type: constants.PAYMENT_SUCCESS,
+					data: response.data,
+				})
 			})
-		})
-		.catch(error => {
-			dispatch({
-				type: constants.PAYMENT_ERROR,
-				data: error.data,
+			.catch(error => {
+				dispatch({
+					type: constants.PAYMENT_ERROR,
+					data: error.data,
+				})
+				console.log('postForm', error)
 			})
-			console.log('postForm', error)
-		})
 	}
 }

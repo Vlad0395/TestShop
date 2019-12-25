@@ -7,6 +7,8 @@ const initialState = {
 	error: false,
 	sum: 0,
 	paymentSuccess: false,
+	express: 9.99,
+	courier: 19.99,
 };
 
 export default (state = initialState, action) => {
@@ -16,16 +18,22 @@ export default (state = initialState, action) => {
 				...state,
 				products: action.data,
 			};
-		case constants.DELETE_PRODUCTT_SUCCESS:
-			let products = state.product.filter(product => product.id !== action.data);
+		case constants.DELETE_PRODUCT:
+			let products = state.products.filter(product => product.id !== action.id);
 			return {
 				...state,
-				product: products,
+				products: products,
 			};
 		case constants.SAVE_SUM:
 			return{
 				...state,
 				sum: action.data,
+			}
+		case constants.COST_DELIVERY:
+			return{
+				...state,
+				express: action.express,
+				courier: action.courier,
 			}
 		case constants.PAYMENT_SUCCESS:
 			return{
