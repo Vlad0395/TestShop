@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { getProducts, saveSum, DeleteProduct } from '../actions/ProductActions';
 import map from 'lodash/map';
-import '../styles/CartStyle.css';
-import Image from "../images/image.png";
+import CartItem from './CartItem';
 
 class Cart extends Component {
 
@@ -77,54 +77,38 @@ class Cart extends Component {
         this.state.prices.forEach(price => { sum += price })
 
         return (
-            <div className='container'>
-                {products &&
+            <Container>
+                {products ?
                     map(products, (product, index) => (
-                        <div className="card" key={product.id}>
-                            <button
-                                className="btnDelete"
-                                onClick={() => this.handleRemove(product.id, index)}
-                            >
-                                <i className="fas fa-trash"></i>
-                            </button>
-                            <div className='img'>
-                                <img src={Image} alt={product.image} />
-                            </div>
-                            <div className='description'>
-                                <h3>{product.title}</h3>
-                                <p>{product.about}</p>
-                            </div>
-                            <div className='number'>
-                                <button className='btnMinus' onClick={() => this.handleMove(index, -1)}>-</button>
-                                <p
-                                    name='number'
-                                    onChange={() => this.handleChange(index)}
-                                >{this.state.numbers[index] || 1}</p>
-                                <button className='btnPlus' onClick={() => this.handleMove(index, +1)}>+</button>
-                            </div>
-                            <div className='price'>
-                                <p>{product.price * (this.state.numbers[index] || 1)} €</p>
-                            </div>
-                        </div>
-                    ))}
-                <div className='total'>
+                        <CartItem
+                            product={product}
+                            index={index}
+                            handleChange={this.handleChange}
+                            handleMove={this.handleMove}
+                            handleRemove={this.handleRemove}
+                            numbers={this.state.numbers}
+                            key={product.id}
+                        />
+                    )) :
+                    <CartItem />
+                }
+                <Total className='total'>
                     <div className="sum">
                         <p>
                             {sum} €
                         </p>
                     </div>
                     <Link to="/shipping">
-                        <button
-                            className="btnBuy"
+                        <BtnBuy
                             sum={sum}
                             disabled={sum === 0}
                             onClick={() => this.handleBuy(sum)}
                         >
                             BUY
-                        </button>
+                        </BtnBuy>
                     </Link>
-                </div>
-            </div>
+                </Total>
+            </Container>
         )
     }
 }
@@ -138,3 +122,31 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(Cart);
 
+const Container = styled.div`
+    width: 35%;
+    margin: 0 auto;
+    @media screen and (max-width: 1280px) {
+        width: 60%;
+        margin: 0 auto;
+    }
+    @media screen and (max-width: 1024px){
+        width: 80%;
+        margin: 0 auto;
+    }
+    @media screen and (max-width: 768px) {
+        width: 90%;
+        margin: 0 auto;
+    }
+    @media screen and (max-width: 480px) {
+        width: 100%;
+        margin: 0 auto;
+    }
+`;
+
+const Total = styled.div`
+    text-align: right;
+`;
+
+const BtnBuy = styled.button`
+    padding: 5px 25px;
+`;
