@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
                     'Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Architecto nobis corrupti repellendus reiciendis magnam
                     quasi molestiae veritatis?',
-                'image' => 'Image 1',
+                'image' => '../images/image.png',
                 'price' => 5,
             ],
             [
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
                     'Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Architecto nobis corrupti repellendus reiciendis magnam
                     quasi molestiae veritatis?',
-                'image' => 'Image 2',
+                'image' => '../images/image.png',
                 'price' => 2,
             ],
             [
@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
                     'Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Architecto nobis corrupti repellendus reiciendis magnam
                     quasi molestiae veritatis?',
-                'image' => 'Image 3',
+                'image' => '../images/image.png',
                 'price' => 3,
             ]
         ]);

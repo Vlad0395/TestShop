@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Skeleton from 'react-skeleton-loader';
 import styled from 'styled-components';
-import Image from "../images/image.png";
 
 class CartItem extends PureComponent {
     render() {
@@ -14,7 +13,11 @@ class CartItem extends PureComponent {
                     <i className="fas fa-trash"></i>
                 </BtnDelete>}
                 {product &&
-                    <Img src={Image} alt={product && product.image} />}
+                    <Img src={product.image} alt={product && product.image} /> || 
+                    <Skeleton
+                        width = '150px'
+                        height = '150px'
+                    />}
                 <Description >
                     <DescriptionH3>{product && product.title || <Skeleton />}</DescriptionH3>
                     <Paragraf>{product && product.about || <Skeleton count={3} />}</Paragraf>
@@ -25,11 +28,19 @@ class CartItem extends PureComponent {
                         name='number'
                         onChange={() => handleChange(index)}
                     >{numbers[index] || 1}</NumParagraf>
-                    <button className='btnPlus' onClick={() => handleMove(index, +1)}>+</button>
-                </Number>}
+                    <button
+                        className='btnPlus'
+                        onClick={() => handleMove(index, +1)}
+                    >
+                        +
+                </button>
+                </Number> || <Skeleton />}
                 {product && <Price className='price'>
                     <p>{product && product.price * (numbers[index] || 1)} €</p>
-                </Price>}
+                </Price> || 
+                <Skeleton 
+                    width='30px'
+                />}
             </Card>
         )
     }

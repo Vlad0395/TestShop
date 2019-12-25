@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-skeleton-loader';
 import styled from 'styled-components';
 import { getProducts, saveSum, DeleteProduct } from '../actions/ProductActions';
 import map from 'lodash/map';
@@ -92,20 +93,20 @@ class Cart extends Component {
                     )) :
                     <CartItem />
                 }
-                <Total className='total'>
-                    <div className="sum">
+               <Total className='total'>
+               {products && <div className="sum">
                         <p>
                             {sum} €
                         </p>
-                    </div>
+                    </div> || <Skeleton  width = '140px' count={2} />}
                     <Link to="/shipping">
-                        <BtnBuy
+                    {products && <BtnBuy
                             sum={sum}
                             disabled={sum === 0}
                             onClick={() => this.handleBuy(sum)}
                         >
                             BUY
-                        </BtnBuy>
+                    </BtnBuy>}
                     </Link>
                 </Total>
             </Container>
@@ -121,7 +122,6 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(Cart);
-
 const Container = styled.div`
     width: 35%;
     margin: 0 auto;

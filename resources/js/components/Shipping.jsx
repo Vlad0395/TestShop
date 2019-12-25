@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { payment, costDelivery } from '../actions/ProductActions';
 import styled from 'styled-components';
 import Popup from './Popup';
-
+import '../style.css'
 class Shipping extends Component {
     state = {
         name: '',
@@ -19,15 +19,15 @@ class Shipping extends Component {
         switch (event.target.name) {
             case 'name':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
-                error[event.target.name] = 'Name must consist of latin letters and numbers';
+                error[event.target.name] = 'Name must contain of latin letters and numbers';
                 break;
             case 'address':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
-                error[event.target.name] = 'Address must consist of latin letters and numbers';
+                error[event.target.name] = 'Address must contain of latin letters and numbers';
                 break;
             case 'phone':
                 regular = RegExp('^[0-9]{8,12}$');
-                error[event.target.name] = 'The phone number must consist of positive digits';
+                error[event.target.name] = 'The phone number must contain of positive digits';
                 break;
             case 'email':
                 regular = RegExp('^\\w+@[a-zA-Z0-9_.-]+?\\.[a-zA-Z_.-]{2,3}$');
@@ -192,7 +192,19 @@ const Form = styled.div`
     background: #f2f3f1;
     position:relative;
     z-index:100;
-   
+    @media screen and (max-width: 1280px){
+        width:40%
+    }
+    @media screen and (max-width: 1024px){
+        width:50%
+    }
+    @media screen and (max-width: 768px) {
+        width:65%
+    }
+    @media screen and (max-width: 480px) {
+        width:100%;
+        border:none;
+    }
 `;
 
 const Label = styled.label`
@@ -200,11 +212,20 @@ const Label = styled.label`
     justify-content: space-between;
     align-items: center;
     padding-bottom:10px;
+    @media screen and (max-width: 480px) {
+        width:100%;
+        flex-direction:column;
+        align-items:left;
+    }
 `;
 
 const Span = styled.span`
     font-size: 20px;
     font-family: 'Courier New', Courier, monospace;
+    @media screen and (max-width: 480px) {
+        width:100%;
+        margin-left:15px;
+    }
 `;
 
 const Input = styled.input`
@@ -213,7 +234,10 @@ const Input = styled.input`
     margin: 5px;
     border: none;
     border-radius: 2%;
-    color: ${props => props.error ? 'red' : 'black'}
+    color: ${props => props.error ? 'red' : 'black'};
+    @media screen and (max-width: 480px) {
+        width:95%;
+    }
 `;
 
 const Select = styled.select`
@@ -222,6 +246,10 @@ const Select = styled.select`
     padding: 5px;
     margin: 5px;
     border-radius: 2%;
+    @media screen and (max-width: 480px) {
+        width:100%;
+
+    }
 `;
 
 const Button = styled.button`
@@ -233,6 +261,10 @@ const Button = styled.button`
 
 const Div = styled.div`
     text-align:right;
+    @media screen and (max-width: 480px) {
+        text-align:center;
+        width:100%;
+    }
 `;
 
 const Error = styled.p`
@@ -242,11 +274,17 @@ const Error = styled.p`
     margin:0 0 0 10px;
     position:absolute;
     top:-13px;
-
+    @media screen and (max-width: 480px) {
+        top: -15px;
+        right: 25px;
+    }
 `;
 
 const Box = styled.div`
     display:flex;
     flex-direction:column;
     position:relative;
+    @media screen and (max-width: 480px) {
+        width:100%
+    }
 `;
