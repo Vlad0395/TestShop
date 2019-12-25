@@ -85,4 +85,8 @@ class ProductController extends Controller
     {
         //
     }
+    public function payment(Request $request){
+//        dd($request);
+        return response(200);
+    }
 }

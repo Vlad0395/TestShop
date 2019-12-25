@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import '../styles/ShippingStyle.css';
+import { connect } from 'react-redux';
+import { payment } from '../actions/ProductActions';
 import styled from 'styled-components';
+import Popup from './Popup';
 
 class Shipping extends Component {
     state = {
@@ -13,14 +15,17 @@ class Shipping extends Component {
     handleChange = (event) => {
         let error = { ...this.state.errorValidation };
         let regular = '';
+        let required = '';
         switch (event.target.name) {
             case 'name':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
                 error[event.target.name] = 'Name must consist of latin letters and numbers';
+                required = 'field is required';
                 break;
             case 'address':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');
                 error[event.target.name] = 'Address must consist of latin letters and numbers';
+                required = 'field is required';
                 break;
             case 'phone':
                 regular = RegExp('^[0-9]{8,12}$');
@@ -29,6 +34,7 @@ class Shipping extends Component {
             case 'email':
                 regular = RegExp('^\\w+@[a-zA-Z0-9_.-]+?\\.[a-zA-Z_.-]{2,3}$');
                 error[event.target.name] = 'email not valid';
+                required = 'field is required';
                 break;
             default:
                 regular = '';
@@ -42,6 +48,10 @@ class Shipping extends Component {
         } else {
             this.setState({ errorValidation: error })
         }
+        // if (event.target.value.lenght === 0 || !event.target.value ){
+        //     error[event.target.name] = '';
+        //     this.setState({ errorValidation: required });
+        // }
     };
 
     handleError = () => {
@@ -49,11 +59,22 @@ class Shipping extends Component {
         console.log('errorValidation', this.state.errorValidation)
     }
 
+    handlePay = () =>{
+        this.props.dispatch(payment())
+    }
+
     render() {
-        const { errorValidation } = this.state;
-        console.log('errorValidation', errorValidation.address)
+        const { errorValidation, name, address, email } = this.state;
+        const { sum, paymentSuccess } = this.props;
+        console.log('sum', sum)
+        console.log('errorValidation', errorValidation)
+        console.log('name', name)
+        console.log('address', address)
+        console.log('email', email)
+
         return (
             <Form >
+                { paymentSuccess && <Popup/> }
                 <Label>
                     <Span>Name*</Span>
                     <Box>
@@ -111,26 +132,43 @@ class Shipping extends Component {
                 </Label>
                 <Label >
                     <Span>Shipping options</Span>
-                    <Select name="shipping options" id="shippingOptions">
+                    <Select
+                        name="shipping options"
+                        id="shippingOptions"
+                        defaultValue={sum >= 300 ? 'Free express shipping' : 'Free shipping'}
+                        disabled={sum >= 300}
+                    >
                         <option value="Free shipping">Free shipping</option>
                         <option value="Express shipping - additional 9.99 €">Express shipping - additional 9.99 €</option>
                         <option value="Courier shipping - additional 19.99 €">Courier shipping - additional 19.99 €</option>
+                        {sum >= 300 && <option value="Free express shipping">Free express shipping</option>}
                     </Select>
                 </Label>
                 <Div>
                     <Button
-                        type="submit"
-                        value="PAY"
-                    />
+                        onClick={this.handlePay}
+                        disabled={ 
+                            !name || !address || !email || errorValidation.name || errorValidation.address || errorValidation.phone || errorValidation.email}
+                    >
+                        PAY
+                    </Button>
                 </Div>
             </Form>
         )
     }
 }
 
-export default Shipping;
+const mapStateToProps = (state) => {
+    const { sum, paymentSuccess } = state.productReducer;
+    return {
+        sum,
+        paymentSuccess,
+    }
+}
 
-const Form = styled.form`
+export default connect(mapStateToProps)(Shipping);
+
+const Form = styled.div`
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -144,7 +182,7 @@ const Form = styled.form`
 const Label = styled.label`
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding-bottom:10px;
 `;
 
@@ -170,7 +208,7 @@ const Select = styled.select`
     border-radius: 2%;
 `;
 
-const Button = styled.input`
+const Button = styled.button`
     width: 50px;
     padding: 5px;
     border-radius: 5%;
@@ -188,6 +226,7 @@ const Error = styled.p`
     margin:0 0 0 10px;
     position:absolute;
     top:-13px;
+
 `;
 
 const Box = styled.div`

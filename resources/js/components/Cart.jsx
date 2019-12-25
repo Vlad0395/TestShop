@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getProducts } from '../actions/ProductActions';
+import { getProducts, saveSum } from '../actions/ProductActions';
 import map from 'lodash/map';
 import '../styles/CartStyle.css';
 import Image from "../images/image.png";
@@ -11,11 +11,12 @@ class Cart extends Component {
     state = {
         numbers: [],
         prices: [],
-    }
+    };
 
     componentDidMount() {
         this.props.dispatch(getProducts());
-    };
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.products && !prevProps.products) {
             let numbers = this.props.products.map((product, index) => 1)
@@ -49,6 +50,10 @@ class Cart extends Component {
                 prices,
             })
         }
+    };
+
+    handleBuy = (sum) => {
+        this.props.dispatch(saveSum(sum))
     }
 
     render() {
@@ -92,6 +97,7 @@ class Cart extends Component {
                         <button
                             className="btnBuy"
                             sum={sum}
+                            onClick={() => this.handleBuy(sum)}
                         >
                             BUY
                         </button>

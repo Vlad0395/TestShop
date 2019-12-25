@@ -25,7 +25,7 @@ export const DeleteProduct = id => {
 		axios
 			.delete('api/products/' + id)
 			.then(response => {
-				return dispatch({
+				dispatch({
 					type: constants.DELETE_PRODUCT_SUCCESS,
 					data: response.data,
 				});
@@ -35,3 +35,32 @@ export const DeleteProduct = id => {
 			});
 	};
 };
+
+export const saveSum = (sum) => {
+	return dispatch => {
+		dispatch({
+			type: constants.SAVE_SUM,
+			data: sum,
+		})
+	}
+}
+
+export const payment = () => {
+	return dispatch => {
+		axios
+		.post('api/payment')
+		.then(response => {
+			dispatch({
+				type: constants.PAYMENT_SUCCESS,
+				data: response.data,
+			})
+		})
+		.catch(error => {
+			dispatch({
+				type: constants.PAYMENT_ERROR,
+				data: error.data,
+			})
+			console.log('postForm', error)
+		})
+	}
+}

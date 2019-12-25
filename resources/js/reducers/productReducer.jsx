@@ -5,6 +5,8 @@ const initialState = {
 	products:null,
 	shipping: null,
 	error: false,
+	sum: 0,
+	paymentSuccess: false,
 };
 
 export default (state = initialState, action) => {
@@ -20,6 +22,21 @@ export default (state = initialState, action) => {
 				...state,
 				product: products,
 			};
+		case constants.SAVE_SUM:
+			return{
+				...state,
+				sum: action.data,
+			}
+		case constants.PAYMENT_SUCCESS:
+			return{
+				...state,
+				paymentSuccess: true,
+			}
+		case constants.PAYMENT_ERROR:
+			return{
+				...state,
+				paymentSuccess: false,
+			}
 		default:
 			return state;
 	}
