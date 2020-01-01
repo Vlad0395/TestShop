@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 class Popup extends Component {
     render() {
+        
         const { sum, express, courier, select } = this.props;
         let delivery = ''
         
@@ -36,7 +37,7 @@ class Popup extends Component {
             </Div>
         )
     }
-}
+};
 
 const mapStateToProps = (state) => {
     const { sum, express, courier } = state.productReducer;
@@ -46,7 +47,7 @@ const mapStateToProps = (state) => {
         courier,
     }
 
-}
+};
 
 export default connect(mapStateToProps)(Popup)
 

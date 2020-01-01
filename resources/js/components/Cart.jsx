@@ -58,10 +58,10 @@ class Cart extends Component {
 
     handleBuy = (sum) => {
         this.props.dispatch(saveSum(sum))
-    }
+    };
+
     handleRemove = (id, index) => {
         this.props.dispatch(DeleteProduct(id))
-        //need refactoring, because you change state. And it will change data without setState
         let numbers = [...this.state.numbers]
         let prices = [...this.state.prices]
         numbers.splice(index, 1)
@@ -70,12 +70,21 @@ class Cart extends Component {
             numbers,
             prices,
         })
-    }
+    };
+
+    SumBuy = () => {
+        let prices = [...this.state.prices]
+        let sum = 0;
+        prices.forEach(price => { sum += price });
+
+        return sum;
+       
+    };
 
     render() {
         const { products } = this.props;
-        let sum = 0;
-        this.state.prices.forEach(price => { sum += price })
+        const sum  = this.SumBuy();
+        
 
         return (
             <Container>
@@ -112,16 +121,17 @@ class Cart extends Component {
             </Container>
         )
     }
-}
+};
 
 const mapStateToProps = state => {
     const { products } = state.productReducer;
     return {
         products,
     }
-}
+};
 
 export default connect(mapStateToProps)(Cart);
+
 const Container = styled.div`
     width: 35%;
     margin: 0 auto;

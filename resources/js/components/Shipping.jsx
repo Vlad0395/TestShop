@@ -4,6 +4,7 @@ import { payment, costDelivery } from '../actions/ProductActions';
 import styled from 'styled-components';
 import Popup from './Popup';
 import '../style.css'
+
 class Shipping extends Component {
     state = {
         name: '',
@@ -12,8 +13,10 @@ class Shipping extends Component {
         email: '',
         select:'Free shipping',
         errorValidation: {},
-    }
+    };
+
     handleChange = (event) => {
+
         let error = { ...this.state.errorValidation };
         let regular = '';
         switch (event.target.name) {
@@ -36,43 +39,43 @@ class Shipping extends Component {
             default:
                 regular = '';
                 break;
-        }
+        };
 
         this.setState({ [event.target.name]: event.target.value });
+
         if (event.target.value.match(regular)) {
             error[event.target.name] = '';
             this.setState({ errorValidation: error });
         } else {
             this.setState({ errorValidation: error })
         }
-        // if (event.target.value.lenght === 0 || !event.target.value ){
-        //     error[event.target.name] = '';
-        //     this.setState({ errorValidation: required });
-        // }
     };
+
     handleChangeSelect = () =>{
         this.setState({
             [event.target.name]:event.target.value
         })
-    }
+    };
+
     handleError = () => {
         this.setState({ errorValidation: true });
-    }
+    };
 
     handlePay = () => {
         this.props.dispatch(payment())
-    }
+    };
 
     handleCostDelivery = (express, courier) => {
         this.props.dispatch(costDelivery(express, courier))
-    }
+    };
 
     render() {
+
         const { errorValidation, name, address, email, select } = this.state;
         const { sum, paymentSuccess } = this.props;
         let express = 9.99;
         let courier = 19.99;
-        console.log('select', select)
+
         return (
             <Form >
                 {paymentSuccess && 
@@ -170,7 +173,7 @@ class Shipping extends Component {
             </Form>
         )
     }
-}
+};
 
 const mapStateToProps = (state) => {
     const { sum, paymentSuccess } = state.productReducer;
@@ -178,7 +181,7 @@ const mapStateToProps = (state) => {
         sum,
         paymentSuccess,
     }
-}
+};
 
 export default connect(mapStateToProps)(Shipping);
 

@@ -7,4 +7,4 @@ export const constants = {
     PAYMENT_SUCCESS: 'PAYMENT_SUCCESS',
     PAYMENT_ERROR: 'PAYMENT_ERROR',
     COST_DELIVERY: 'COST_DELIVERY',
-}
+};

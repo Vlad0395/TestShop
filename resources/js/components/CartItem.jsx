@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 class CartItem extends PureComponent {
     render() {
-        const { product, index, handleChange, handleMove, handleRemove, numbers } = this.props
+        
+        const { product, index, handleChange, handleMove, handleRemove, numbers } = this.props;
+
         return (
             <Card className="card" >
                 {product && <BtnDelete
@@ -44,7 +46,7 @@ class CartItem extends PureComponent {
             </Card>
         )
     }
-}
+};
 
 export default CartItem;
 

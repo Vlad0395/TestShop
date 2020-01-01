@@ -24,8 +24,7 @@ export const DeleteProduct = (id) => {
 	return dispatch => {
 		dispatch({
 			type: constants.DELETE_PRODUCT,
-			id,
-			
+			id,	
 		});
 	}
 };
@@ -37,17 +36,18 @@ export const saveSum = (sum) => {
 			data: sum,
 		})
 	}
-}
+};
+
 export const costDelivery = (express, courier) => {
 	return dispatch => {
 		dispatch({
 			type: constants.COST_DELIVERY,
 			express: express,
 			courier: courier,
-
 		})
 	}
-}
+};
+
 export const payment = () => {
 	return dispatch => {
 		axios
@@ -66,4 +66,4 @@ export const payment = () => {
 				console.log('postForm', error)
 			})
 	}
-}
+};
