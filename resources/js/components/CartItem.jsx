@@ -48,6 +48,8 @@ class CartItem extends PureComponent {
     }
 };
 
+
+
 export default CartItem;
 
 const Card = styled.div`

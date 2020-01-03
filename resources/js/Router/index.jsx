@@ -10,7 +10,7 @@ class Router extends Component {
 
         return (
             <BrowserRouter>
-                < Switch>
+                <Switch>
                     <Route path='/cart'
                            exact component={Cart}
                     />

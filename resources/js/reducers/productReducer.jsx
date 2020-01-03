@@ -9,6 +9,7 @@ const initialState = {
 	paymentSuccess: false,
 	express: 9.99,
 	courier: 19.99,
+	numbers: [],
 };
 
 export default (state = initialState, action) => {
@@ -44,6 +45,11 @@ export default (state = initialState, action) => {
 			return{
 				...state,
 				paymentSuccess: false,
+			}
+		case constants.SAVE_NUMBERS:
+			return{
+				...state,
+				numbers:action.data,
 			}
 		default:
 			return state;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { payment, costDelivery } from '../actions/ProductActions';
+import { Link } from 'react-router-dom';
+import { payment, costDelivery, saveNumbers } from '../actions/ProductActions';
 import styled from 'styled-components';
 import Popup from './Popup';
 import '../style.css'
@@ -11,7 +12,7 @@ class Shipping extends Component {
         address: '',
         phone: '',
         email: '',
-        select:'Free shipping',
+        select: 'Free shipping',
         errorValidation: {},
     };
 
@@ -51,9 +52,9 @@ class Shipping extends Component {
         }
     };
 
-    handleChangeSelect = () =>{
+    handleChangeSelect = () => {
         this.setState({
-            [event.target.name]:event.target.value
+            [event.target.name]: event.target.value
         })
     };
 
@@ -69,6 +70,7 @@ class Shipping extends Component {
         this.props.dispatch(costDelivery(express, courier))
     };
 
+   
     render() {
 
         const { errorValidation, name, address, email, select } = this.state;
@@ -78,10 +80,20 @@ class Shipping extends Component {
 
         return (
             <Form >
-                {paymentSuccess && 
+                <AppBar>
+                    <Link
+                        to="/cart"
+                    >
+                        <i className="fas fa-arrow-left fa-2x"></i>
+                    </Link>
+                    <h1>Checkout</h1>
+                </AppBar>
+                {
+                    paymentSuccess &&
                     <Popup
                         select={select}
-                    />}
+                    />
+                }
                 <Label>
                     <Span>Name*</Span>
                     <Box>
@@ -170,16 +182,17 @@ class Shipping extends Component {
                         PAY
                     </Button>
                 </Div>
-            </Form>
+            </Form >
         )
     }
 };
 
 const mapStateToProps = (state) => {
-    const { sum, paymentSuccess } = state.productReducer;
+    const { sum, paymentSuccess, numbers } = state.productReducer;
     return {
         sum,
         paymentSuccess,
+        numbers,
     }
 };
 
@@ -195,7 +208,7 @@ const Form = styled.div`
     background: #f2f3f1;
     position:relative;
     z-index:100;
-    @media screen and (max-width: 1280px){
+    @media screen and (max-width: 1366px){
         width:40%
     }
     @media screen and (max-width: 1024px){
@@ -289,5 +302,14 @@ const Box = styled.div`
     position:relative;
     @media screen and (max-width: 480px) {
         width:100%
+    }
+`;
+
+const AppBar = styled.div`
+    display: flex;
+    align-items: center;
+    && h1 {
+        position: relative;
+        left: 30%;
     }
 `;

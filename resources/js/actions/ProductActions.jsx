@@ -37,7 +37,14 @@ export const saveSum = (sum) => {
 		})
 	}
 };
-
+export const saveNumbers = (numbers) => {
+	return dispatch => {
+		dispatch({
+			type: constants.SAVE_NUMBERS,
+			data: numbers,
+		})
+	}
+}
 export const costDelivery = (express, courier) => {
 	return dispatch => {
 		dispatch({

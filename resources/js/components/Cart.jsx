@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-skeleton-loader';
 import styled from 'styled-components';
-import { getProducts, saveSum, DeleteProduct } from '../actions/ProductActions';
+import { getProducts, saveSum, DeleteProduct, saveNumbers } from '../actions/ProductActions';
 import map from 'lodash/map';
 import CartItem from './CartItem';
 
@@ -18,18 +18,37 @@ class Cart extends Component {
         this.props.dispatch(getProducts());
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.products && !prevProps.products) {
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.products && !prevProps.products) {
+    //         if (!this.state.numbers.length && !this.state.prices.length) {
+    //             let numbers = this.props.products.map((product, index) => 1)
+    //             let prices = this.props.products.map((product) => product.price)
+    //             this.setState({
+    //                 numbers,
+    //                 prices,
+    //             })
+    //         }
+    //     }
+    // }
 
-            if (!this.state.numbers.length && !this.state.prices.length) {
-                let numbers = this.props.products.map((product, index) => 1)
-                let prices = this.props.products.map((product) => product.price)
-                this.setState({
-                    numbers,
-                    prices,
-                })
+    static getDerivedStateFromProps(props, state) {
+
+        let numbers = [];
+        let prices = [];
+        if (!state.numbers.length) {
+            if (props.numbers.length){
+                numbers = props.numbers;
+            } 
+            else if (props.products) {
+                numbers = props.products.map((product, index) => 1)
+                prices = props.products.map((product) => product.price)
             }
-        }
+            return {
+                ...state,
+                numbers,
+                prices,
+            }
+        } else return { ...state, numbers: state.numbers };
     }
 
     handleChange = (index) => {
@@ -60,6 +79,10 @@ class Cart extends Component {
         this.props.dispatch(saveSum(sum))
     };
 
+    handleNumbers = (numbers) => {
+        this.props.dispatch(saveNumbers(numbers))
+    }
+
     handleRemove = (id, index) => {
         this.props.dispatch(DeleteProduct(id))
         let numbers = [...this.state.numbers]
@@ -72,19 +95,17 @@ class Cart extends Component {
         })
     };
 
-    SumBuy = () => {
-        let prices = [...this.state.prices]
+    CalculationsSum = () => {
+        let prices = [...this.state.prices];
         let sum = 0;
         prices.forEach(price => { sum += price });
-
         return sum;
-       
     };
 
     render() {
+
         const { products } = this.props;
-        const sum  = this.SumBuy();
-        
+        const sum = this.CalculationsSum();
 
         return (
             <Container>
@@ -102,17 +123,22 @@ class Cart extends Component {
                     )) :
                     <CartItem />
                 }
-               <Total className='total'>
-               {products && <div className="sum">
+                <Total className='total'>
+                    {products && <div className="sum">
                         <p>
                             {sum} €
                         </p>
-                    </div> || <Skeleton  width = '140px' count={2} />}
+                    </div> || <Skeleton width='140px' count={2} />}
                     <Link to="/shipping">
-                    {products && <BtnBuy
+                        {products && <BtnBuy
                             sum={sum}
                             disabled={sum === 0}
-                            onClick={() => this.handleBuy(sum)}
+                            onClick={
+                                () => {
+                                    this.handleBuy(sum);
+                                    this.handleNumbers(this.state.numbers)
+                                }
+                            }
                         >
                             BUY
                     </BtnBuy>}
@@ -124,9 +150,10 @@ class Cart extends Component {
 };
 
 const mapStateToProps = state => {
-    const { products } = state.productReducer;
+    const { products, numbers } = state.productReducer;
     return {
         products,
+        numbers,
     }
 };
 
@@ -135,7 +162,7 @@ export default connect(mapStateToProps)(Cart);
 const Container = styled.div`
     width: 35%;
     margin: 0 auto;
-    @media screen and (max-width: 1280px) {
+    @media screen and (max-width: 1366px) {
         width: 60%;
         margin: 0 auto;
     }
