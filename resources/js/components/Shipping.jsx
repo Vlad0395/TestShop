@@ -20,6 +20,7 @@ class Shipping extends Component {
 
         let error = { ...this.state.errorValidation };
         let regular = '';
+        
         switch (event.target.name) {
             case 'name':
                 regular = RegExp('^[a-zA-Z0-9]{1,15}$');

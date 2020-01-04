@@ -25,7 +25,6 @@ class Popup extends Component {
                 delivery = '';
             break;
         }
-        console.log('typeof', typeof(delivery))
         return (
             <Div>
                 <Title> Order successfully paid </Title>
@@ -46,7 +45,6 @@ const mapStateToProps = (state) => {
         express,
         courier,
     }
-
 };
 
 export default connect(mapStateToProps)(Popup)

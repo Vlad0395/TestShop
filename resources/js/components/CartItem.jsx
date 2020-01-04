@@ -5,7 +5,7 @@ import styled from 'styled-components';
 class CartItem extends PureComponent {
     render() {
 
-        const { product, index, handleChange, handleMove, handleRemove, numbers } = this.props;
+        const { product, index, handleChange, handleMove, handleRemove, numbers, prices } = this.props;
         
         return (
             <Card className="card" >
@@ -38,7 +38,7 @@ class CartItem extends PureComponent {
                     </button>
                 </Number> || <Skeleton />}
                 {product && <Price className='price'>
-                    <p>{product && product.price * (numbers[index] || 1)} €</p>
+                    <p>{product && prices[index]} €</p>
                 </Price> ||
                     <Skeleton
                         width='30px'

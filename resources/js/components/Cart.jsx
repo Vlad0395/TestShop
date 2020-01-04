@@ -20,7 +20,7 @@ class Cart extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.products && !prevProps.products) {
-            if ( !this.state.prices.length) {
+            if (!this.state.prices.length) {
                 let prices = this.props.products.map((product) => product.price)
                 this.setState({
                     prices,
@@ -30,15 +30,15 @@ class Cart extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        
+
         let numbers = [];
         let prices = [];
 
         if (!state.numbers.length) {
-            if (props.numbers.length){
+            if (props.numbers.length) {
                 numbers = props.numbers;
                 prices = props.products.map((product, index) => product.price * numbers[index])
-            } 
+            }
             else if (props.products) {
                 numbers = props.products.map((product, index) => 1)
             }
@@ -47,9 +47,9 @@ class Cart extends Component {
                 numbers,
                 prices,
             }
-        } else return { 
-            ...state, 
-            numbers: state.numbers, 
+        } else return {
+            ...state,
+            numbers: state.numbers,
             prices: state.prices,
         };
     }
@@ -99,9 +99,7 @@ class Cart extends Component {
     };
 
     CalculationsSum = () => {
-       
-        let prices = [...this.state.prices]; 
-        console.log('prices cart page',prices)       
+        let prices = [...this.state.prices];
         let sum = 0;
         prices.forEach(price => { sum += price });
         return sum;
@@ -110,6 +108,8 @@ class Cart extends Component {
     render() {
 
         const { products } = this.props;
+        const { numbers, prices } = this.state;
+        const { handleChange, handleMove, handleRemove } = this;
         const sum = this.CalculationsSum();
 
         return (
@@ -119,11 +119,12 @@ class Cart extends Component {
                         <CartItem
                             product={product}
                             index={index}
-                            handleChange={this.handleChange}
-                            handleMove={this.handleMove}
-                            handleRemove={this.handleRemove}
-                            numbers={this.state.numbers}
+                            handleChange={handleChange}
+                            handleMove={handleMove}
+                            handleRemove={handleRemove}
+                            numbers={numbers}
                             key={product.id}
+                            prices={prices}
                         />
                     )) :
                     <CartItem />
@@ -155,11 +156,10 @@ class Cart extends Component {
 };
 
 const mapStateToProps = state => {
-    const { products, numbers, sum } = state.productReducer;
+    const { products, numbers} = state.productReducer;
     return {
         products,
         numbers,
-        sum,
     }
 };
 
