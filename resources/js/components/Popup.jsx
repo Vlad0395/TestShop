@@ -55,6 +55,7 @@ const Div = styled.div`
     color: black;
     display:flex;
     flex-direction:column;
+    margin: 0 auto;
     position: absolute;
     opacity:0.8;
     width:450px;
@@ -63,13 +64,34 @@ const Div = styled.div`
     z-index:1;
     border:1px solid gray;
     border-radius: 10%;
-    padding:10px
+    padding:10px;
+    @media screen and (max-width: 1366px) {
+      left:10%
+    }
+    @media screen and (max-width: 1024px){
+      left:7%
+    }
+    @media screen and (max-width: 768px) {
+        left:6%
+    }
+    @media screen and (max-width: 480px) {
+        width:100%;
+        background: blue;
+        border-radius: 0%;
+        border: none;
+        top: 0;
+        left:0;
+        opacity: 1;
+    }
 `;
 
-const Title = styled.span`
+const Title = styled.h3`
     font-size:20px;
     color: green;
     text-align:center;
+    @media screen and (max-width: 480px) {
+        color: #02f226;
+    }
 `;
 
 const Box = styled.div`
