@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 class CartItem extends PureComponent {
     render() {
-        
-        const { product, index, handleChange, handleMove, handleRemove, numbers } = this.props;
 
+        const { product, index, handleChange, handleMove, handleRemove, numbers } = this.props;
+        
         return (
             <Card className="card" >
                 {product && <BtnDelete
@@ -15,10 +15,10 @@ class CartItem extends PureComponent {
                     <i className="fas fa-trash"></i>
                 </BtnDelete>}
                 {product &&
-                    <Img src={product.image} alt={product && product.image} /> || 
+                    <Img src={product.image} alt={product && product.image} /> ||
                     <Skeleton
-                        width = '150px'
-                        height = '150px'
+                        width='150px'
+                        height='150px'
                     />}
                 <Description >
                     <DescriptionH3>{product && product.title || <Skeleton />}</DescriptionH3>
@@ -35,14 +35,14 @@ class CartItem extends PureComponent {
                         onClick={() => handleMove(index, +1)}
                     >
                         +
-                </button>
+                    </button>
                 </Number> || <Skeleton />}
                 {product && <Price className='price'>
                     <p>{product && product.price * (numbers[index] || 1)} €</p>
-                </Price> || 
-                <Skeleton 
-                    width='30px'
-                />}
+                </Price> ||
+                    <Skeleton
+                        width='30px'
+                    />}
             </Card>
         )
     }
